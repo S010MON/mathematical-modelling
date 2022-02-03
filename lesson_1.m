@@ -15,8 +15,8 @@ for t = 0:t_step:t_final
 end%for
 
 % Comment in for plot!
-%figure(1)
-%plot(T, Y);
+figure(1)
+plot(T, Y);
 
 
 
@@ -31,9 +31,8 @@ for t = 0:t_step:t_final
 	Y = [Y, x_t];
 end%for
 
-%figure(2);
-%plot(T, Y);
-
+figure(2);
+plot(T, Y);
 
 
 %% Ex 3 - Competing Species

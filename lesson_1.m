@@ -7,17 +7,20 @@ T = 0 : t_step : t_final;
 %% Ex 1 - Exponential Population Growth
 e = 0.3;
 x_0 = 2;
+x_t = 2;
 Y = [];
 
 for t = 0:t_step:t_final
-	y_t = y_t + expGrowth(x_0, t, e);
-	Y = [Y, y_t];
+	x_t = x_t + expGrowth(x_0, t, e);
+	Y = [Y, x_t];
 end%for
 
 % Comment in for plot!
-figure(1)
-plot(T, Y);
-
+f_1 = figure(1)
+plot(T, Y)
+title('Exponential population growth')
+xlabel('Time')
+ylabel('Population Size')
 
 
 %% Ex 2 - Limited Population Growth
@@ -31,8 +34,11 @@ for t = 0:t_step:t_final
 	Y = [Y, x_t];
 end%for
 
-figure(2);
-plot(T, Y);
+f_2 = figure(2)
+plot(T, Y)
+title('Quadratic population growth limited by resources')
+xlabel('Time')
+ylabel('Population Size')
 
 
 %% Ex 3 - Competing Species
@@ -51,15 +57,18 @@ X = []; 	% Output array of y
 
 for t = 0:t_step:t_final
 	[dx, dy] = competeSpecies(e_1, s_1, a_1, x_t, e_2, s_2, a_2, y_t); 
-	x_t = x_t + dx
+	x_t = x_t + dx;
 	y_t = y_t + dy;
 	X = [X, x_t];
 	Y = [Y, y_t];
 end%for
 
-figure(3)
-plot(T, X);
-hold on;
-plot(T, Y);
-hold off;
+f_3 = figure(3)
+plot(T, X)
+hold on
+plot(T, Y)
+hold off
+title('Interaction of two species competing for the same resources')
+xlabel('Time')
+ylabel('Population Size')
 

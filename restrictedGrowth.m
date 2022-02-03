@@ -1,5 +1,5 @@
 function x_prime = restrictedGrowth(x_t, epsilon, sigma)
-%% A model of exponential growth of a population where:
+%% A model of restricted growth of a population where:
 % x_0 = start population
 % t = current time
 % epsilon = growth factor

@@ -1,10 +1,13 @@
-% Ex 1 - Exponential Population Growth
+
+% global simulation params
+t_step = 0.1;
+t_final = 10;
+T = 0 : t_step : t_final;
+
+%% Ex 1 - Exponential Population Growth
 e = 0.3;
 x_0 = 2;
 Y = [];
-
-t_step = 0.1;
-t_final = 10;
 
 for t = 0:t_step:t_final
 	y_t = y_t + expGrowth(x_0, t, e);
@@ -12,41 +15,52 @@ for t = 0:t_step:t_final
 end%for
 
 % Comment in for plot!
-figure(1)
-plot(0:t_step:t_final, Y);
+%figure(1)
+%plot(T, Y);
 
 
 
-% Ex 2 - Limited Population Growth
+%% Ex 2 - Limited Population Growth
 epsilon = 0.3;
 sigma = 0.01;
 x_t = 1;
 Y = [];
-
-t_step = 0.1;
-t_final = 10;
 
 for t = 0:t_step:t_final
 	x_t = x_t + restrictedGrowth(x_t, epsilon, sigma);
 	Y = [Y, x_t];
 end%for
 
-figure(2);
-plot(0:t_step:t_final, Y);
-
-% Ex 3 - Competing Species
-e_1 = 0;
-s_1 = 0;
-a_1 = 0;
-x_t = 10;
-
-e_2 = 0;
-s_2 = 0;
-a_2 = 0;
-y_t = 11;
+%figure(2);
+%plot(T, Y);
 
 
 
+%% Ex 3 - Competing Species
+e_1 = 0.2;
+s_1 = 0.01;	% Parameters for species x
+a_1 = 0.03;
+x_t = 1;
 
+e_2 = 0.1;
+s_2 = 0.01;	% parameters for species y
+a_2 = 0.01;
+y_t = 10;
 
+Y = [];		% Output array of x
+X = []; 	% Output array of y
+
+for t = 0:t_step:t_final
+	[dx, dy] = competeSpecies(e_1, s_1, a_1, x_t, e_2, s_2, a_2, y_t); 
+	x_t = x_t + dx
+	y_t = y_t + dy;
+	X = [X, x_t];
+	Y = [Y, y_t];
+end%for
+
+figure(3)
+plot(T, X);
+hold on;
+plot(T, Y);
+hold off;
 

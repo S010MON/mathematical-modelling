@@ -1,5 +1,5 @@
 % Ex 1 - Exponential Population Growth
-e = 1;
+e = 0.3;
 x_0 = 2;
 Y = [];
 
@@ -12,13 +12,14 @@ for t = 0:t_step:t_final
 end%for
 
 % Comment in for plot!
-%plot(0:t_step:t_final, Y);
+figure(1)
+plot(0:t_step:t_final, Y);
 
 
 
 % Ex 2 - Limited Population Growth
-epsilon = 1;
-sigma = 0;
+epsilon = 0.3;
+sigma = 0.01;
 x_t = 1;
 Y = [];
 
@@ -30,9 +31,8 @@ for t = 0:t_step:t_final
 	Y = [Y, x_t];
 end%for
 
-%figure();
+figure(2);
 plot(0:t_step:t_final, Y);
-
 
 % Ex 3 - Competing Species
 e_1 = 0;

@@ -17,4 +17,22 @@ A = f(1,2)
 
 
 %% Challenge 2
+% Part (a): Construct a second-order continuous-time state-space representation based on the information provided
+
+r = 120;
+l = 0.01;
+c = 0.002;
+v_1 = 1;
+
+A = [ (-1/(l*c)), 0;
+     -0, (-r*c/(l*c))];
+B = [1/(l*c);
+     0];
+C = [1, 0];
+D = 0;
+
+RCL_ss = ss(A,B,C,D)
+
+RCL_tf = tf(RCL_ss)
+
 

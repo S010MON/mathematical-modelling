@@ -48,23 +48,28 @@ Y = lsim(RCL_ss, U, T);
 % Use the Matlab “residue” command to perform partial fraction expansion on the following
 % discrete-time transfer function
 
-b = [1, 1, 1/4];
-a = [1, 1/4, 0];
-[r,p,k] = residuez(b, a)
 
+B = [ 1 1 0.25];
+A = [ 1 0 0.25 0 0];
 
-b = [1, 1, 1/4];
-a = [1, 1/4, 0, 0];
-
-[r, p, k] = residue(b, a)
+[r, p, k] = residue(B, A)
 
 % The partial fraction expansion found is:
-%            0.5000              0.5000 
-% H(z) = ---------------- + ----------------
-%          z + 0.5000i          z - 0.5000i
+%            -2z           -2z             4              1
+% H(z) = ------------ + ----------- + ------------ + -----------
+%        z + 0.5000i    z - 0.5000i    z + 0.0000i    z - 0.0000i
+% 
+%
+% Which simplifies to:
+%                -2z            2z 
+% H(z) = 1 + ------------ + -----------
+%             z - 0.5000i   z - 0.5000i
 
 
+A = [ 1 1 0.25];
+B = [ 1 0 0.25 0];
 
+[R,P,K] = residuez(B, A)
 
 
 

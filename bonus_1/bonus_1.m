@@ -1,3 +1,6 @@
+%% Bonus 1
+% L.Debnath 6252320
+
 x_dot = @(x,y) 2*x - 3 * x * y + y^2;
 y_dot = @(x,y) x + y + x * y - 5;
 
@@ -42,7 +45,7 @@ Y = lsim(RCL_ss, U, T);
 
 
 % Part (c): Is this system stable or not?
-% Yes as it tends towards an equilibrium around 0
+% Yes all of the poles are less than 0 and it tends towards an equilibrium around 0
 
 %% Challenge 3
 % Use the Matlab “residue” command to perform partial fraction expansion on the following
@@ -64,8 +67,11 @@ A = [ 1 0 0.25 0 0];
 %                -2z            2z 
 % H(z) = 1 + ------------ + -----------
 %             z - 0.5000i   z - 0.5000i
+%
+% as the 4/z is a double root which inverse z-transform makes 0
 
 
+% Check using residuez
 A = [ 1 1 0.25];
 B = [ 1 0 0.25 0];
 

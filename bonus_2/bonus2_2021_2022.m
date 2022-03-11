@@ -17,8 +17,8 @@ a1 = [1, 0.2, 0.1 - pi^2 * 14400.001];
 % then make notch filter for 120Hz harmonic
 z2 = [pi * 240i, pi * -240i];
 p2 = [-0.1 + pi * 240i, -0.1 - pi * 240i];
-b2 = [1, 14400 * pi^2];
-a2 = [1, 0.2, 0.1 - pi^2 * 14400.001];
+b2 = [1, 57600 * pi^2];
+a2 = [1, 0.2, 0.1 - pi^2 * 57600.001];
 
 % Finally combine the notch filters in a single transfer function
 z_c % zeros of combined transfer function

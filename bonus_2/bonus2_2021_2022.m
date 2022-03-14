@@ -15,11 +15,11 @@ options.FreqUnits = 'Hz';
 
 
 % first make notch filter for 60Hz powerline
-freq1 = 120 * pi/fs
+freq1 = 120 * pi/fs;
 z1 = [cos(120 * pi/fs) + (sin(120 * pi/fs) * 1i), cos(120 * pi/fs) - (sin(120 * pi/fs) * 1i)];
 p1 = [0.95 * (cos(freq1) + sin(freq1) * 1i), 0.95 * (cos(freq1) - sin(freq1) * 1i)];
-b1 = poly(z1)
-a1 = poly(p1)
+b1 = poly(z1);
+a1 = poly(p1);
 sys_1 = tf(b1, a1, 1/fs)
 
 % then make notch filter for 120Hz harmonic
@@ -36,10 +36,10 @@ sys_2 = tf(b2, a2, 1/fs)
 % hold off;
 
 % Finally combine the notch filters in a single transfer function
-z_c = [z1, z2]
-p_c = [p1, p2]
-b_c = poly(z_c)
-a_c = poly(p_c)
+z_c = [z1, z2];
+p_c = [p1, p2];
+b_c = poly(z_c);
+a_c = poly(p_c);
 
 %% Challenge 1b
 % Plot the magnitude response (bode magnitude plot)

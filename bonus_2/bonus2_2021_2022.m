@@ -45,11 +45,13 @@ a_c = poly(p_c);
 % Plot the magnitude response (bode magnitude plot)
 % first compute the frequency response
 omega = linspace(0,2*pi,1000);     % frequencies in radians
-H1 = tf(b_c, a_c, 1/fs)
+num = polyval(b_c, exp(omega * 1i));
+den = polyval(a_c, exp(omega * 1i));
+H1 = num ./ den;
 
 % Plot the magnitude response (absolute value of the frequency response)
 figure(2);
-bode(H1, options), grid
+plot(linspace(0,fs,1000), H1)
 title('Magnitude response Task 1b')
 
 % Make a pole-zero plot

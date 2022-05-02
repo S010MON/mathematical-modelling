@@ -8,21 +8,23 @@ fprintf('\nTask 1\n\n');
 n = length(d1);
 d1_mean = mean(d1);
 fprintf('There are %d datapoints in the data set\n', n); 
-fprintf('The minimum value is: %f\n', min(d1)); 
-fprintf('The maximum value is: %f\n', max(d1));
-fprintf('The mean value is: %f\n\n', d1_mean);
+fprintf('Minimum value: %f\n', min(d1)); 
+fprintf('Maximum value: %f\n', max(d1));
+fprintf('Mean value   : %f\n\n', d1_mean);
 
-d1_var = sum((d1 - d1_mean).^2)/n-1;
-fprintf('The variance is: %f\n\n', d1_var);
+d1_sigma2 = sum((d1 - d1_mean).^2)/n-1;
+fprintf('The variance is: %f\n\n', d1_sigma2);
+d1_sigma = sqrt(d1_sigma2);
+fprintf('The standard deviation is: %f\n\n', d1_sigma);
 
 %% 7 Number Summary
-fprintf('The 2nd percentile is: %f\n', prctile(d1, 2)); 
-fprintf('The 9th percentile is: %f\n', prctile(d1, 9)); 
-fprintf('The 1st quartile is: %f\n', prctile(d1, 25)); 
-fprintf('The median value is: %f\n', median(d1));
-fprintf('The 3rd quartile is: %f\n', prctile(d1, 75)); 
-fprintf('The 91st percentile is: %f\n', prctile(d1, 91)); 
-fprintf('The 98th percentile is: %f\n', prctile(d1, 98)); 
+fprintf('2nd percentile  : %f\n', prctile(d1, 2)); 
+fprintf('9th percentile  : %f\n', prctile(d1, 9)); 
+fprintf('1st quartile    : %f\n', prctile(d1, 25)); 
+fprintf('median value    : %f\n', median(d1));
+fprintf('3rd quartile    : %f\n', prctile(d1, 75)); 
+fprintf('91st percentile : %f\n', prctile(d1, 91)); 
+fprintf('98th percentile : %f\n', prctile(d1, 98)); 
 
 %% Visualisation - Scatter 
 % A scatter plot is the easiest and thus first visualisation to be conducted
@@ -58,24 +60,29 @@ title('Task 1: Box plot')
 
 %% Data Cleaning
 figure(4);
-d1_cl = d1(d1 <= 99);
-d1_cl = d1_cl(d1_cl > 0);
-hist(d1_cl, 1000);
+d1c = d1(d1 <= 99);
+d1c = d1c(d1c > 0);
+hist(d1c, 1000);
 
 
 %% Mean, Variance, and Sample 
-fprintf('\nAfter data cleaning:\n'); 
-n = length(d1);
-fprintf('There are %d datapoints in the data set\n', n); 
-fprintf('The minimum value is: %f\n', min(d1)); 
-fprintf('The maximum value is: %f\n', max(d1));
-fprintf('The mean value is: %f\n\n', mean(d1));
+fprintf('\nAfter data cleaning:\n\n'); 
+fprintf(['%d remaining datapoints in the set (%d removed)' ...
+    '\n'], length(d1c), length(d1) - length(d1c)); 
+fprintf('Minimum value : %f\n', min(d1c)); 
+fprintf('Maximum value : %f\n', max(d1c));
+fprintf('Mean value    : %f\n\n', mean(d1c));
+
+d1c_sigma2 = sum((d1c - mean(d1c)).^2)/n-1;
+fprintf('The variance is: %f\n\n', d1c_sigma2);
+d1c_sigma = sqrt(d1c_sigma2);
+fprintf('The standard deviation is: %f\n\n', d1c_sigma);
 
 %% 7 Number Summary
-fprintf('The 2nd percentile is: %f\n', prctile(d1, 2)); 
-fprintf('The 9th percentile is: %f\n', prctile(d1, 9)); 
-fprintf('The 1st quartile is: %f\n', prctile(d1, 25)); 
-fprintf('The median value is: %f\n', median(d1));
-fprintf('The 3rd quartile is: %f\n', prctile(d1, 75)); 
-fprintf('The 91st percentile is: %f\n', prctile(d1, 91)); 
-fprintf('The 98th percentile is: %f\n', prctile(d1, 98)); 
+fprintf('2nd percentile  : %f\n', prctile(d1c, 2)); 
+fprintf('9th percentile  : %f\n', prctile(d1c, 9)); 
+fprintf('1st quartile    : %f\n', prctile(d1c, 25)); 
+fprintf('median value    : %f\n', median(d1c));
+fprintf('3rd quartile    : %f\n', prctile(d1c, 75)); 
+fprintf('91st percentile : %f\n', prctile(d1c, 91)); 
+fprintf('98th percentile : %f\n', prctile(d1c, 98)); 

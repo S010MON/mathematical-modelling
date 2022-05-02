@@ -1,14 +1,19 @@
-
+clc;
+clear;
 data = load("dataIndSSA2022.mat");
 d1 = data.task1_data;
 
 %% Mean, Variance, and Sample 
-fprintf('\nTask 1\n'); 
+fprintf('\nTask 1\n\n'); 
 n = length(d1);
+d1_mean = mean(d1);
 fprintf('There are %d datapoints in the data set\n', n); 
 fprintf('The minimum value is: %f\n', min(d1)); 
 fprintf('The maximum value is: %f\n', max(d1));
-fprintf('The mean value is: %f\n\n', mean(d1));
+fprintf('The mean value is: %f\n\n', d1_mean);
+
+d1_var = sum((d1 - d1_mean).^2)/n-1;
+fprintf('The variance is: %f\n\n', d1_var);
 
 %% 7 Number Summary
 fprintf('The 2nd percentile is: %f\n', prctile(d1, 2)); 
@@ -24,7 +29,6 @@ fprintf('The 98th percentile is: %f\n', prctile(d1, 98));
 % the plot shows a strong cluster of values around the mean line, with a
 % large gap between 80 and 100 on the Y axis as well as an unusual
 % formation of points on the 0 line.
-d1_mean = mean(d1);
 figure(1);
 scatter(1:length(d1), d1);
 hold on;

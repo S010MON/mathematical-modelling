@@ -36,4 +36,8 @@ figure(3);
 boxplot(d1, 'Notch', 'on')
 title('Task 1: Box plot')
 
+figure(4);
+d1_clean = d1(d1 <= 99);
+d1_clean = d1_clean(d1_clean > 0);
+hist(d1_clean, 1000);
 

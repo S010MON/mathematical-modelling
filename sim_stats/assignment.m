@@ -240,7 +240,7 @@ criticalValue = 1.36/sqrt(n);
 fprintf('D value: %f\n', d); 
 fprintf('Critical Value: %f\n', criticalValue);
 
-% As the critical value is smaller that the critical value the null
+% As the D value is smaller that the critical value the null
 % hypothesis is not rejected. This means that the randomly generated values
 % are not significantly differently distributed and are thus a "good" random
 % set of values

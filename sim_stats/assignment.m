@@ -67,10 +67,10 @@ title('Task 1: Box plot')
 
 %% Data Cleaning
 % Data points larger than 53.3415 and equal to zero are removed from the
-% set
+% set due to the fact that they do not fall within the interquartile ranges
 figure(5);
-temp = d1(d1 <= 68);
-d1c = temp(temp > 0);
+d1c = d1(d1 <= 53.3415);
+d1c = d1c(d1c > 0);
 hist(d1c, 1000);
 
 %% Mean, Variance, and Sample 
@@ -79,7 +79,8 @@ fprintf(['%d remaining datapoints in the set (%d removed)' ...
     '\n'], length(d1c), length(d1) - length(d1c)); 
 fprintf('Minimum value : %f\n', min(d1c)); 
 fprintf('Maximum value : %f\n', max(d1c));
-fprintf('Mean value    : %f\n\n', mean(d1c));
+d1c_mean = mean(d1c);
+fprintf('Mean value    : %f\n\n', d1c_mean);
 
 d1c_sigma2 = sum((d1c - mean(d1c)).^2)/n-1;
 fprintf('The variance is: %f\n\n', d1c_sigma2);
@@ -102,31 +103,37 @@ skew = 3 * (mean(d1c) - median(d1c))/d1c_sigma;
 fprintf('\nSkew : %f\n', skew); 
 
 %% Distribution
-% It is hypothesised that the data comes from a Poisson distribution, shown
+% It is hypothesised that the data comes from a Normal distribution, shown
 % by the fitting of a curve to the data set
-poisson = @(x, mu) exp(-mu) * (mu.^x) / factorial(x);
-normal = @(x, sigma, mu) (1/(sigma * sqrt(2 * pi)))*exp(-1/2 * ((x - mu)/sigma)^2);
-
-l = zeros(ceil(max(d1c)));
-mu = mean(d1c);
-for x = 1:length(l)
-    l(x) = normal(x, d1c_sigma, mu);
-end%for
+normal = @(x) (1./(d1c_sigma .* sqrt(2 .* pi))) * exp(-1/2 * ((x - d1c_mean) ./ d1c_sigma).^2);
 
 figure(6)
 histogram(d1c, 'normalization', 'probability');
 hold on;
-plot(l, 'r')
+fplot(normal, 'r')
 hold off;
+title('Task 1: Fitted Distribution')
 
 
 %% Task 2 
 fprintf('\nTask 2\n\n'); 
 d2 = data.task2_data;
 
-%% Estimate Parameters
-d2_mu_hat = sum(log(d2))/length(d2);
-d2_sigma_hat = sqrt(sum((log(d2) - d2_mu_hat).^2)/2);
+%% Part A - Estimate Parameters
+n = length(d2)
+d2_mu_hat = sum(log(d2))./n;
+d2_sigma_hat = sqrt( sum((log(d2) - d2_mu_hat).^2)./n );
 
-fprintf('Estimated mean ( hat)    : %f\n', d2_mu_hat); 
-fprintf('Estimated mean (sigma hat) : %f\n', d2_mu_hat); 
+fprintf('Estimated mean (mu hat)    : %f\n', d2_mu_hat); 
+fprintf('Estimated mean (sigma hat) : %f\n', d2_sigma_hat); 
+
+%% Part B - Density Histogram Plot
+lognormal = @(x) 1 ./ (x.*d2_sigma_hat.*sqrt(2*pi)) .* exp( -(log(x) - d2_mu_hat).^2. ./ (2*d2_sigma_hat.^2));
+
+figure(7)
+histogram(d2, 'normalization', 'probability');
+hold on;
+fplot(lognormal, 'r')
+hold off;
+
+%% Part C - Chi Squared test

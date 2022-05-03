@@ -53,7 +53,7 @@ title('Task 1: Scatter plot sorted')
 % look normal, with an unexpected rise in values around 100
 
 figure(3);
-hist(d1, 1000);
+histogram(d1, 1000, 'normalization', 'probability');
 title('Task 1: Histogram')
 
 %% Visualisation - Box and Whisker 
@@ -71,7 +71,8 @@ title('Task 1: Box plot')
 figure(5);
 d1c = d1(d1 <= 53.3415);
 d1c = d1c(d1c > 0);
-hist(d1c, 1000);
+histogram(d1c, 1000, 'normalization', 'probability');
+title('Task 1: Histogram of cleaned data')
 
 %% Mean, Variance, and Sample 
 fprintf('\nAfter data cleaning:\n\n'); 
@@ -137,3 +138,30 @@ fplot(lognormal, 'r')
 hold off;
 
 %% Part C - Chi Squared test
+% For each bin value in our dataset calculate the expected value from the 
+% distribution
+p = @(x) lognormal(x-0.5);
+obs = histcounts(d2);
+exp = length(d2) .* p(1:length(obs));
+
+figure(8)
+plot(obs, 'b');
+hold on;
+plot(exp, 'r');
+hold off;
+title('Task 2: Observed and Expected values')
+
+
+%% Calculate Chi Squared
+% Create a function to calculate the Chi^2 value 
+chiSqd = @(O, E) sum((O - E).^2 ./ E);
+chiSquared = chiSqd(obs, exp)
+
+
+alpha = 0.05;
+
+%% test
+
+lognormal(0.5)
+
+

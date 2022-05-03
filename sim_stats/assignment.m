@@ -139,12 +139,15 @@ hold off;
 
 %% Part C - Chi Squared test
 % For each bin value in our dataset calculate the expected value from the 
-% distribution
-CDF = @(x) (1 + erf((log(x) - d2_mu_hat)./ d2_sigma_hat * sqrt(2)))/2;
-expected = @(x) CDF(x+1) - CDF(x)
+% distribution.  The null hypothesis is that the 
+CDF = @(x) (1 + erf((log(x) - d2_mu_hat)./ (d2_sigma_hat * sqrt(2))))/2;
+expected = @(x) CDF(x+1) - CDF(x);
 
 obs = histcounts(d2);
-exp = length(d2) .* expected(1:length(obs));
+exp = length(d2) .* expected(0:length(obs)-1);
+
+nonZeroBins = obs(obs > 0);
+noNonZeroBins = length(nonZeroBins)
 
 figure(8)
 plot(obs, 'b');
@@ -157,13 +160,58 @@ title('Task 2: Observed and Expected values')
 %% Calculate Chi Squared
 % Create a function to calculate the Chi^2 value 
 chiSqd = @(O, E) sum((O - E).^2 ./ E);
-chiSquared = chiSqd(obs, exp)
+chiSquared = chiSqd(obs, exp);
 
+% degree of freedom = No of non zero bins - no of estimate params
+degreeOfFreedom = 63 - 2;
 
+% Critical value = 1- alpha  = 0.95 in table
 alpha = 0.05;
+criticalValue = 1 - alpha;
 
-%% test
+fprintf('Calculated chi squared value: %f\n', chiSquared); 
+fprintf('Degrees of Freedom: %f\n', degreeOfFreedom); 
+fprintf('Alpha: %f\n', alpha); 
+fprintf('Critical Value: %f\n', criticalValue); 
 
-lognormal(0.5)
+% After looking up in a table the p-Value = 42.188
+% as the p value is greater than 
+
+
+%% Task 3 - Part A
+n = 10000
+a_1 = 0;
+a_2 = 63308;
+a_3 = -183326;
+b_1 = 86098;
+b_2 = 0;
+b_3 = -539608;
+m_1 = 2147483647;
+m_2 = 2145483479;
+
+X = zeros(n + 3, 1);
+X(1) = 5
+X(2) = 1
+X(3) = 9
+
+Y = zeros(n + 3, 1);
+Y(1) = 3;
+Y(2) = 3;
+Y(3) = 8;
+
+Z = zeros(n + 3, 1);
+
+for i = 4:n+3
+    X(i) = mod((a_1 * X(i-1) + a_2 * X(i-2) + a_3 * X(i-3)), m_1);
+    Y(i) = mod((b_1 * Y(i-1) + b_2 * Y(i-2) + b_3 * X(i-3)), m_2);
+    Z(i) = mod((X(i)- Y(i)),m_1);
+end
+
+Z = Z(4:end)./m_1;
+
+figure(9)
+scatter(linspace(0, 1, n), Z);
+
+%%  Part B: - Kolmogorov-Smirnov Test
 
 

@@ -213,5 +213,21 @@ figure(9)
 scatter(linspace(0, 1, n), Z);
 
 %%  Part B: - Kolmogorov-Smirnov Test
+% The zero hypothesis for the K-S test is that the distribution fits a
+% uniform random distribution
 
+U_pdf = ones(n, 1) ./ n;
+U_cdf = cumsum(U_pdf)/sum(U_pdf);
 
+Z_cdf = cumsum(Z)/sum(Z);
+
+figure(10)
+plot(1:length(U_cdf), U_cdf)
+hold on;
+plot(1:length(Z_cdf), Z_cdf, 'r')
+hold off;
+
+%%
+delta = abs(Z_cdf - U_cdf);
+delta_max = max(delta) 
+criticalValue = 1.36/sqrt(n)

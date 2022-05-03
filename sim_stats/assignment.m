@@ -140,9 +140,11 @@ hold off;
 %% Part C - Chi Squared test
 % For each bin value in our dataset calculate the expected value from the 
 % distribution
-p = @(x) lognormal(x-0.5);
+CDF = @(x) (1 + erf((log(x) - d2_mu_hat)./ d2_sigma_hat * sqrt(2)))/2;
+expected = @(x) CDF(x+1) - CDF(x)
+
 obs = histcounts(d2);
-exp = length(d2) .* p(1:length(obs));
+exp = length(d2) .* expected(1:length(obs));
 
 figure(8)
 plot(obs, 'b');

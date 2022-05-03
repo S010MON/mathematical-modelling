@@ -38,13 +38,21 @@ plot([0,length(d1)], [d1_mean, d1_mean])
 hold off;
 title('Task 1: Scatter plot')
 
+%% Visualisation - Sorted Scatter
+% A sort of the data provides a clearer understanding of the growth of the
+% cumulitive distribution function and shows the break in the data in the 
+% region around 90 - 100 
+figure(2);
+scatter(1:length(d1), sort(d1));
+title('Task 1: Scatter plot sorted')
+
 %% Visualisation - Histogram 
 % At first glance a histogram shows a poisson distribution, this plot also
 % confirms that the large number of values clustered at 0 do not fit into
 % the curve of the distribution. The tail of the distribution also does not
 % look normal, with an unexpected rise in values around 100
 
-figure(2);
+figure(3);
 hist(d1, 1000);
 title('Task 1: Histogram')
 
@@ -53,17 +61,17 @@ title('Task 1: Histogram')
 % ouside the interquartile range of the distribution.  We can thus conclude
 % that between 
 
-figure(3);
+figure(4);
 boxplot(d1, 'Notch', 'on')
 title('Task 1: Box plot')
 
-
 %% Data Cleaning
-figure(4);
-d1c = d1(d1 <= 99);
+% Data points larger than 53.3415 and equal to zero are removed from the
+% set
+figure(5);
+d1c = d1(d1 <= 98);
 d1c = d1c(d1c > 0);
 hist(d1c, 1000);
-
 
 %% Mean, Variance, and Sample 
 fprintf('\nAfter data cleaning:\n\n'); 
@@ -86,3 +94,24 @@ fprintf('median value    : %f\n', median(d1c));
 fprintf('3rd quartile    : %f\n', prctile(d1c, 75)); 
 fprintf('91st percentile : %f\n', prctile(d1c, 91)); 
 fprintf('98th percentile : %f\n', prctile(d1c, 98)); 
+
+%% Skew
+% The positive result indicates that the data is skewed to the left of the
+% x axis, this tracks with the histogram shown
+skew = 3 * (mean(d1c) - median(d1c))/d1c_sigma;
+fprintf('\nSkew : %f\n', skew); 
+
+%% Distribution
+poisson = @(x, mu) exp(-mu) * (mu.^x) / factorial(x);
+
+l = zeros(ceil(max(d1c)));
+mu = mean(d1c);
+for i = 1:length(l)
+    l(i) = 1000 * poisson(i, mu);
+end%for
+
+figure(6)
+hist(d1c, 1000);
+hold on;
+plot(l, 'r')
+hold off;

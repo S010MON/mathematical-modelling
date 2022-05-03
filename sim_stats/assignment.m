@@ -69,7 +69,7 @@ title('Task 1: Box plot')
 % Data points larger than 53.3415 and equal to zero are removed from the
 % set
 figure(5);
-temp = d1(d1 <= 98);
+temp = d1(d1 <= 68);
 d1c = temp(temp > 0);
 hist(d1c, 1000);
 
@@ -107,8 +107,8 @@ fprintf('\nSkew : %f\n', skew);
 poisson = @(x, mu) exp(-mu) * (mu.^x) / factorial(x);
 normal = @(x, sigma, mu) (1/(sigma * sqrt(2 * pi)))*exp(-1/2 * ((x - mu)/sigma)^2);
 
-l = zeros(ceil(max(d1)));
-mu = mean(d1);
+l = zeros(ceil(max(d1c)));
+mu = mean(d1c);
 for x = 1:length(l)
     l(x) = normal(x, d1c_sigma, mu);
 end%for
@@ -120,4 +120,13 @@ plot(l, 'r')
 hold off;
 
 
-%% 
+%% Task 2 
+fprintf('\nTask 2\n\n'); 
+d2 = data.task2_data;
+
+%% Estimate Parameters
+d2_mu_hat = sum(log(d2))/length(d2);
+d2_sigma_hat = sqrt(sum((log(d2) - d2_mu_hat).^2)/2);
+
+fprintf('Estimated mean ( hat)    : %f\n', d2_mu_hat); 
+fprintf('Estimated mean (sigma hat) : %f\n', d2_mu_hat); 

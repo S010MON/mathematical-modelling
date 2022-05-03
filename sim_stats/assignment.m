@@ -259,15 +259,20 @@ fprintf('Critical Value: %f\n', criticalValue);
 % 6. Four of a kind    AAAAB 0.0045
 % 7. Five of a kind    AAAAA 0.0001
 
+% the random numbers are reshaped into hands of 5, with a potential of a
+% value between 1 - 7 as shown above.  
+
 hands = floor(reshape(Z,[5,length(Z)/5]) * 5);
 occurances = zeros(length(hands), 1);
 
-
+% Every hand is converted to a single digit representation
 
 for i = 1:length(occurances)
     occurances(i) = pokerify(hands(1:end, i));
 end%for
 
+% A histogram shows the probability found for each hand and the values are
+% normalised to the range [0,1]
 
 histogram(occurances, 'normalization', 'probability') 
 p = histcounts(occurances)/length(occurances)
@@ -284,6 +289,16 @@ end%function
 
 
 function [y] = pokerify(hand)
+% A Function that returns a value between 1 - 7 depending on the poker hand
+% inputted
+%
+% 1. All different     ABCDE 0.3024
+% 2. One Pair          AABCD 0.5040
+% 3. Two pairs         AABBC 0.1080
+% 4. Three of a kind   AAABC 0.0720
+% 5. Full house        AAABB 0.0090
+% 6. Four of a kind    AAAAB 0.0045
+% 7. Five of a kind    AAAAA 0.0001
 
     [GC, GR] = groupcounts(hand);
     max_ = max(GC);

@@ -226,8 +226,19 @@ plot(1:length(U_cdf), U_cdf)
 hold on;
 plot(1:length(Z_cdf), Z_cdf, 'r')
 hold off;
+title('Uniform Distribution Generation')
+legend('Perfect', 'Generated')
 
 %%
 delta = abs(Z_cdf - U_cdf);
-delta_max = max(delta) 
-criticalValue = 1.36/sqrt(n)
+d = max(delta);
+criticalValue = 1.36/sqrt(n);
+fprintf('D value: %f\n', d); 
+fprintf('Critical Value: %f\n', criticalValue);
+
+% As the critical value is smaller that the critical value the null
+% hypothesis is not rejected. This means that the randomly generated values
+% are not significantly differently distributed and are thus a "good" random
+% set of values
+
+%% Part C

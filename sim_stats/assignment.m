@@ -18,11 +18,6 @@ d1_sigma = sqrt(d1_sigma2);
 fprintf('The standard deviation is: %f\n\n', d1_sigma);
 
 %% 7 Number Summary
-
-
-prctile([1,2,3,4,5,6,7,8,9,10], 50)
-
-%%
 fprintf('2nd percentile  : %f\n', percentile(d1, 2)); 
 fprintf('9th percentile  : %f\n', percentile(d1, 9)); 
 fprintf('1st quartile    : %f\n', percentile(d1, 25)); 
@@ -109,8 +104,12 @@ skew = 3 * (mean(d1c) - median(d1c))/d1c_sigma;
 fprintf('\nSkew : %f\n', skew); 
 
 %% Distribution
-% It is hypothesised that the data comes from a Normal distribution, shown
-% by the fitting of a curve to the data set
+% The distribution at first glance looks like it comes from a Poisson
+% distribution, however as the mean is not equal to the variance this is
+% not possible.
+% 
+% Thus it is hypothesised that the data comes from a Normal distribution which
+% is skewed significantly, shown by the fitting of a curve to the data set
 normal = @(x) (1./(d1c_sigma .* sqrt(2 .* pi))) * exp(-1/2 * ((x - d1c_mean) ./ d1c_sigma).^2);
 
 figure(6)

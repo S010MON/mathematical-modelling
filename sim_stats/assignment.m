@@ -241,4 +241,4 @@ fprintf('Critical Value: %f\n', criticalValue);
 % are not significantly differently distributed and are thus a "good" random
 % set of values
 
-%% Part C
+%% Part C: Poker Test

@@ -69,8 +69,8 @@ title('Task 1: Box plot')
 % Data points larger than 53.3415 and equal to zero are removed from the
 % set
 figure(5);
-d1c = d1(d1 <= 98);
-d1c = d1c(d1c > 0);
+temp = d1(d1 <= 98);
+d1c = temp(temp > 0);
 hist(d1c, 1000);
 
 %% Mean, Variance, and Sample 
@@ -102,16 +102,22 @@ skew = 3 * (mean(d1c) - median(d1c))/d1c_sigma;
 fprintf('\nSkew : %f\n', skew); 
 
 %% Distribution
+% It is hypothesised that the data comes from a Poisson distribution, shown
+% by the fitting of a curve to the data set
 poisson = @(x, mu) exp(-mu) * (mu.^x) / factorial(x);
+normal = @(x, sigma, mu) (1/(sigma * sqrt(2 * pi)))*exp(-1/2 * ((x - mu)/sigma)^2);
 
-l = zeros(ceil(max(d1c)));
-mu = mean(d1c);
-for i = 1:length(l)
-    l(i) = 1000 * poisson(i, mu);
+l = zeros(ceil(max(d1)));
+mu = mean(d1);
+for x = 1:length(l)
+    l(x) = normal(x, d1c_sigma, mu);
 end%for
 
 figure(6)
-hist(d1c, 1000);
+histogram(d1c, 'normalization', 'probability');
 hold on;
 plot(l, 'r')
 hold off;
+
+
+%% 

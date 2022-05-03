@@ -18,13 +18,18 @@ d1_sigma = sqrt(d1_sigma2);
 fprintf('The standard deviation is: %f\n\n', d1_sigma);
 
 %% 7 Number Summary
-fprintf('2nd percentile  : %f\n', prctile(d1, 2)); 
-fprintf('9th percentile  : %f\n', prctile(d1, 9)); 
-fprintf('1st quartile    : %f\n', prctile(d1, 25)); 
+
+
+prctile([1,2,3,4,5,6,7,8,9,10], 50)
+
+%%
+fprintf('2nd percentile  : %f\n', percentile(d1, 2)); 
+fprintf('9th percentile  : %f\n', percentile(d1, 9)); 
+fprintf('1st quartile    : %f\n', percentile(d1, 25)); 
 fprintf('median value    : %f\n', median(d1));
-fprintf('3rd quartile    : %f\n', prctile(d1, 75)); 
-fprintf('91st percentile : %f\n', prctile(d1, 91)); 
-fprintf('98th percentile : %f\n', prctile(d1, 98)); 
+fprintf('3rd quartile    : %f\n', percentile(d1, 75)); 
+fprintf('91st percentile : %f\n', percentile(d1, 91)); 
+fprintf('98th percentile : %f\n', percentile(d1, 98)); 
 
 %% Visualisation - Scatter 
 % A scatter plot is the easiest and thus first visualisation to be conducted
@@ -89,13 +94,13 @@ d1c_sigma = sqrt(d1c_sigma2);
 fprintf('The standard deviation is: %f\n\n', d1c_sigma);
 
 %% 7 Number Summary
-fprintf('2nd percentile  : %f\n', prctile(d1c, 2)); 
-fprintf('9th percentile  : %f\n', prctile(d1c, 9)); 
-fprintf('1st quartile    : %f\n', prctile(d1c, 25)); 
+fprintf('2nd percentile  : %f\n', percentile(d1c, 2)); 
+fprintf('9th percentile  : %f\n', percentile(d1c, 9)); 
+fprintf('1st quartile    : %f\n', percentile(d1c, 25)); 
 fprintf('median value    : %f\n', median(d1c));
-fprintf('3rd quartile    : %f\n', prctile(d1c, 75)); 
-fprintf('91st percentile : %f\n', prctile(d1c, 91)); 
-fprintf('98th percentile : %f\n', prctile(d1c, 98)); 
+fprintf('3rd quartile    : %f\n', percentile(d1c, 75)); 
+fprintf('91st percentile : %f\n', percentile(d1c, 91)); 
+fprintf('98th percentile : %f\n', percentile(d1c, 98)); 
 
 %% Skew
 % The positive result indicates that the data is skewed to the left of the
@@ -242,3 +247,60 @@ fprintf('Critical Value: %f\n', criticalValue);
 % set of values
 
 %% Part C: Poker Test
+% The poker test involves tranfoming the random numbers into one of 5
+% discete "cards" (the values 0 - 5) and estimating the randomness of sets
+% of 5 cards (or hands) to that of a truly random hand of cards
+% 
+% 1. All different     ABCDE 0.3024
+% 2. One Pair          AABCD 0.5040
+% 3. Two pairs         AABBC 0.1080
+% 4. Three of a kind   AAABC 0.0720
+% 5. Full house        AAABB 0.0090
+% 6. Four of a kind    AAAAB 0.0045
+% 7. Five of a kind    AAAAA 0.0001
+
+hands = floor(reshape(Z,[5,length(Z)/5]) * 5);
+occurances = zeros(length(hands), 1);
+
+
+
+for i = 1:length(occurances)
+    occurances(i) = pokerify(hands(1:end, i));
+end%for
+
+
+histogram(occurances, 'normalization', 'probability') 
+p = histcounts(occurances)/length(occurances)
+
+
+%% Functions
+function [y] = percentile(data, k)
+
+    data = sort(data);
+    index = floor(k/100 * length(data));
+    y = data(index);
+end%function
+
+
+
+function [y] = pokerify(hand)
+
+    [GC, GR] = groupcounts(hand);
+    max_ = max(GC);
+    
+    if max_ == 5 
+        y = 7;
+    elseif max_ == 4
+        y = 6;
+    elseif max_ == 3 && min(GC) == 2
+        y = 5;
+    elseif max_ == 3
+        y = 4;
+    elseif max_ == 2 && length(GC) == 3
+        y = 3;
+    elseif max_ == 2
+        y = 2;
+    else
+        y = 1;
+    end%if
+end%function

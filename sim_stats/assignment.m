@@ -111,11 +111,13 @@ fprintf('\nSkew : %f\n', skew);
 % Thus it is hypothesised that the data comes from a Normal distribution which
 % is skewed significantly, shown by the fitting of a curve to the data set
 normal = @(x) (1./(d1c_sigma .* sqrt(2 .* pi))) * exp(-1/2 * ((x - d1c_mean) ./ d1c_sigma).^2);
+gamma = gampdf(1:0.1:100, 5, 5);
 
 figure(6)
 histogram(d1c, 'normalization', 'probability');
 hold on;
-fplot(normal, 'r')
+fplot(normal, 'r', 'lineWidth', 2)
+plot(1:0.1:100, gamma, 'b', 'lineWidth', 2)
 hold off;
 title('Task 1: Fitted Distribution')
 
@@ -235,15 +237,17 @@ legend('Perfect', 'Generated')
 
 %%
 delta = abs(Z_cdf - U_cdf);
-d = max(delta);
-criticalValue = 1.36/sqrt(n);
-fprintf('D value: %f\n', d); 
+D = max(delta);
+D_adj = (sqrt(n) + 0.12 + (0.11/sqrt(n))) * D;
+criticalValue = 1.358;
+fprintf('D value: %f\n', D); 
+fprintf('D adjusted value: %f\n', D_adj); 
 fprintf('Critical Value: %f\n', criticalValue);
 
 % As the D value is smaller that the critical value the null
 % hypothesis is not rejected. This means that the randomly generated values
 % are not significantly differently distributed and are thus a "good" random
-% set of values
+% set of values.
 
 %% Part C: Poker Test
 % The poker test involves tranfoming the random numbers into one of 5
@@ -261,7 +265,7 @@ fprintf('Critical Value: %f\n', criticalValue);
 % the random numbers are reshaped into hands of 5, with a potential of a
 % value between 1 - 7 as shown above.  
 
-hands = floor(reshape(Z,[5,length(Z)/5]) * 5);
+hands = floor(reshape(Z,[5,length(Z)/5]) * 10);
 occurances = zeros(length(hands), 1);
 
 % Every hand is converted to a single digit representation
